@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gindeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: gin
+      labels:
+        run: ginservice
+    spec:
+      containers:
+        - name: gincontainer
+          image: registry.ng.bluemix.net/turf/tinyports:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ginservice
+  labels:
+    run: ginservice
+spec:
+  type: LoadBalancer
+  selector:
+    run: ginservice
+  ports:
+   - protocol: TCP
+     port: 8080
